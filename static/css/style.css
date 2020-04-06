@@ -5,6 +5,7 @@
     --shadow: 2px 0 8px rgb(0, 0, 0, 0.3);
     --corners: 6px;
     --text-color: rgb(73, 73, 73);
+    --navbar-hover:  #f393fd;
     --light: rgb(241, 222, 222);
     --dark: rgb(73, 73, 73);
     --dark-lighten: rgb(129, 129, 129);
@@ -59,6 +60,31 @@
     background-color: var(--primary-darken);
   }
   
+  ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: var(--light);
+  }
+  
+  li {
+    float: left;
+  }
+  
+  li a {
+    display: block;
+    color: var(--text-color);
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+  }
+  
+  /* Change the link color to #111 (black) on hover */
+  li a:hover {
+    background-color: var(--navbar-hover);
+  }
+
   .game-container {
     height: 300px;
   }
