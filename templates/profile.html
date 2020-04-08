@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+
+
+<main class="container card">
+    <section class="">
+        <div class="">
+            {% for item in scores %}
+            <div>
+                <span>Name: </span>
+                <span>{{ item.user.username }}</span>
+            </div>
+            <div>
+                <span>Score: </span>
+                <span>{{ item.score }}</span>
+            </div>
+            <div>
+                <span>Datetime: </span>
+                <span>{{ item.game_datetime }}</span>
+            
+            </div>
+            {% endfor %}
+        </div>
+
+    </section>
+
+</main>
+
+
+{% endblock content %}

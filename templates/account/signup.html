@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container card" >
+    <p>Sign Up</p>
+    <form method="post" action="{% url 'account_signup' %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button>Sign Up</button>
+    </form>
+</div>
+
+
+{% endblock content %}

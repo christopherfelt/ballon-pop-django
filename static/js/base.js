@@ -11,7 +11,7 @@ let inflationRate = 20;
 let maxSize = 300;
 let highestPopCount = 0;
 let currentPopCount = 0;
-let gameLength = 10000;
+let gameLength = 5000;
 let clockId = 0;
 let timeRemaining = 0;
 let currentPlayer = {};
@@ -21,7 +21,7 @@ let possibleColors = ["red", "green", "blue", "purple", "pink"];
 function startGame() {
   document.getElementById("game-controls").classList.remove("hidden");
   document.getElementById("main-controls").classList.add("hidden");
-  document.getElementById("scoreboard").classList.add("hidden");
+  // document.getElementById("scoreboard").classList.add("hidden");
 
   startClock();
   setTimeout(stopGame, gameLength);
@@ -62,7 +62,7 @@ function checkBalloonPop() {
     balloonElement.classList.add(currentColor);
 
     // @ts-ignore
-    document.getElementById("pop-sound").play();
+    // document.getElementById("pop-sound").play();
 
     currentPopCount++;
     height = 0;
@@ -78,18 +78,18 @@ function getRandomColor() {
 function draw() {
   let balloonElement = document.getElementById("balloon");
   let clickCountElem = document.getElementById("click-count");
-  let popCountElem = document.getElementById("pop-count");
-  let highPopCountElem = document.getElementById("high-pop-count");
-  let playerNameElem = document.getElementById("player-name");
+  // let popCountElem = document.getElementById("pop-count");
+  // let highPopCountElem = document.getElementById("high-pop-count");
+  // let playerNameElem = document.getElementById("player-name");
 
   balloonElement.style.height = height + "px";
   balloonElement.style.width = width + "px";
 
   clickCountElem.innerText = clickCount.toString();
-  popCountElem.innerText = currentPopCount.toString();
-  highPopCountElem.innerText = currentPlayer.topScore.toString();
+  // popCountElem.innerText = currentPopCount.toString();
+  // highPopCountElem.innerText = currentPlayer.topScore.toString();
 
-  playerNameElem.innerText = currentPlayer.name;
+  // playerNameElem.innerText = currentPlayer.name;
 }
 
 function stopGame() {
@@ -97,87 +97,141 @@ function stopGame() {
 
   document.getElementById("main-controls").classList.remove("hidden");
   document.getElementById("game-controls").classList.add("hidden");
-  document.getElementById("scoreboard").classList.remove("hidden");
+  // document.getElementById("scoreboard").classList.remove("hidden");
 
   clickCount = 0;
   height = 120;
   width = 100;
 
-  if (currentPopCount > currentPlayer.topScore) {
-    currentPlayer.topScore = currentPopCount;
-    savePlayers();
-  }
+  saveScore();
+
+  // if (currentPopCount > currentPlayer.topScore) {
+  //   currentPlayer.topScore = currentPopCount;
+  //   savePlayers();
+  // }
 
   currentPopCount = 0;
 
   stopClock();
   draw();
-  drawScoreBoard();
+  // drawScoreBoard();
 }
 
 //#endregion
 
 //#region PLAYER DATA
 
-let players = [];
-loadPlayers();
+// let players = [];
+// loadPlayers();
 
-function setPlayer(event) {
-  event.preventDefault();
-  let form = event.target;
-  let playerName = form.playerName.value;
+// function setPlayer(event) {
+//   event.preventDefault();
+//   let form = event.target;
+//   let playerName = form.playerName.value;
 
-  currentPlayer = players.find(player => player.name == playerName);
+//   currentPlayer = players.find(player => player.name == playerName);
 
-  if (!currentPlayer) {
-    currentPlayer = { name: playerName, topScore: 0 };
-    players.push(currentPlayer);
-    savePlayers();
-  }
+//   if (!currentPlayer) {
+//     currentPlayer = { name: playerName, topScore: 0 };
+//     players.push(currentPlayer);
+//     savePlayers();
+//   }
 
-  form.reset();
-  document.getElementById("game").classList.remove("hidden");
-  form.classList.add("hidden");
-  draw();
-  drawScoreBoard();
+//   form.reset();
+//   document.getElementById("game").classList.remove("hidden");
+//   form.classList.add("hidden");
+//   draw();
+//   drawScoreBoard();
+// }
+
+// function changePlayer() {
+//   document.getElementById("playerForm").classList.remove("hidden");
+//   document.getElementById("game").classList.add("hidden");
+// }
+
+// function savePlayers() {
+//   window.localStorage.setItem("players", JSON.stringify(players));
+// }
+
+// function loadPlayers() {
+//   let playersData = JSON.parse(window.localStorage.getItem("players"));
+//   if (playersData) {
+//     players = playersData;
+//   }
+// }
+
+// function drawScoreBoard() {
+//   let template = "";
+
+//   players.sort((p1, p2) => p2.topScore - p1.topScore);
+
+//   players.forEach(player => {
+//     template += `
+//       <div class="d-flex space-between">
+//         <span>
+//           <i class="fa fa-user"></i>
+//           ${player.name}
+//         </span>
+//         <span>${player.topScore}</span>
+//       </div>
+//     `;
+//   });
+
+//   document.getElementById("players").innerHTML = template;
+// }
+
+// drawScoreBoard();
+
+//#endregion
+
+//#region SCORE SUBMISSION
+
+
+let game_history_url = document.getElementById("game").getAttribute("data-url");
+// let game_score_url = document.getElementById("game_history_button").getAttribute("data-score");
+
+
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        let cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            let cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
 }
 
-function changePlayer() {
-  document.getElementById("playerForm").classList.remove("hidden");
-  document.getElementById("game").classList.add("hidden");
+function getScoreData(){
+
+    let formData = new FormData;
+    let csrftoken = getCookie('csrftoken');
+    formData.append('csrfmiddlewaretoken',csrftoken);
+    formData.append('score', currentPopCount);
+
+    return formData;
+
 }
 
-function savePlayers() {
-  window.localStorage.setItem("players", JSON.stringify(players));
-}
+function saveScore(){
 
-function loadPlayers() {
-  let playersData = JSON.parse(window.localStorage.getItem("players"));
-  if (playersData) {
-    players = playersData;
-  }
-}
+  let scoreData = getScoreData();
 
-function drawScoreBoard() {
-  let template = "";
-
-  players.sort((p1, p2) => p2.topScore - p1.topScore);
-
-  players.forEach(player => {
-    template += `
-      <div class="d-flex space-between">
-        <span>
-          <i class="fa fa-user"></i>
-          ${player.name}
-        </span>
-        <span>${player.topScore}</span>
-      </div>
-    `;
+  fetch(saveScoreUrl, {
+    method: 'POST',
+    header: {'Content-Type':'application/x-www-form-urlencoded'},
+    body: scoreData,
+  }).then((response)=> {
+    if(response.status == 200){
+      console.log(response.json());
+    } 
   });
-
-  document.getElementById("players").innerHTML = template;
 }
 
-drawScoreBoard();
+
 
 //#endregion

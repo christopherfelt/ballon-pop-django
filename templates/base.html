@@ -27,18 +27,14 @@
     <nav class="container dflex space-between">
       <ul>
         <li><a href="{% url 'homepage' %}">Home</a></li>
-        <li><a href="{% url 'game' %}">Game</a></li>
-        <li><a href="">Leaderboard</a></li>
-        <li><a href="">Profile</a></li>
+        <li><a href="{% url 'leaderboard' %}">Leaderboard</a></li>
         {% if user.is_authenticated %}
-
+            <li><a href="{% url 'game' %}">Game</a></li>
+            <li><a href="{% url 'profile' %}">Profile</a></li>
             <li><a href="{% url 'account_logout' %}">logout</a></li>
-
         {% else %}
-
             <li><a href="{% url 'account_login' %}">login</a></li>
             <li><a href="{% url 'account_signup' %}">signup</a></li>
-
         {% endif %}
       </ul> 
     </nav>
@@ -47,6 +43,6 @@
     {% block content %}
     {% endblock content %}
     
-    <script src="{% static 'js/base.js' %}"></script>
+
 </body>
 </html>
