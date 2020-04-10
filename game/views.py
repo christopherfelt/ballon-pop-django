@@ -28,7 +28,7 @@ class SaveScore(View):
 
         game_score = request.POST['score']
 
-        try: 
+        try:
             score = Score.objects.create(
                 user=request.user,
                 score=game_score
@@ -38,7 +38,7 @@ class SaveScore(View):
                 'status': 1,
                 'message': 'Score saved'
             }
-            
+        
         except Exception as e:
             response = {
                 'status': 0,

@@ -7,7 +7,7 @@ class CustomUserTests(TestCase):
     def test_create_user(self):
         User = get_user_model()
         user = User.objects.create_user(
-            username = "will",
+            username="will",
             email="will@email.com",
             password="testpass123"
         )
@@ -29,6 +29,3 @@ class CustomUserTests(TestCase):
         self.assertTrue(admin_user.is_active)
         self.assertTrue(admin_user.is_staff)
         self.assertTrue(admin_user.is_superuser)
-
-
-

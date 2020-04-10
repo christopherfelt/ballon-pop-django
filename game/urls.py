@@ -1,6 +1,7 @@
 from django.urls import path
 
-from .views import BalloonPopHomePage, GameView, SaveScore, LeaderboardView, ProfileView
+from .views import (BalloonPopHomePage, GameView, SaveScore, LeaderboardView,
+                    ProfileView)
 
 urlpatterns = [
     path('', BalloonPopHomePage.as_view(), name="homepage"),
