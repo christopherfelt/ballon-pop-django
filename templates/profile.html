@@ -5,22 +5,24 @@
 
 
 <main class="container card">
-    <section class="">
-        <div class="">
+    <section>
+        <div>
             {% for item in scores %}
-            <div>
-                <span>Name: </span>
-                <span>{{ item.user.username }}</span>
+            <div class="d-flex space-between">
+                <div>
+                    <span>Name: </span>
+                    <span>{{ item.user.username }}</span>
+                </div>
+                <div>
+                    <span>Score: </span>
+                    <span>{{ item.score }}</span>
+                </div>
+                <div>
+                    <span>Played: </span>
+                    <span>{{ item.game_datetime }}</span>
+                </div>
             </div>
-            <div>
-                <span>Score: </span>
-                <span>{{ item.score }}</span>
-            </div>
-            <div>
-                <span>Datetime: </span>
-                <span>{{ item.game_datetime }}</span>
-            
-            </div>
+
             {% endfor %}
         </div>
 
